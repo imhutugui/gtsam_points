@@ -340,7 +340,7 @@ randomgrid_sampling(const PointCloud::ConstPtr& frame, const double voxel_resolu
     quick_sort_omp(coord_pt.begin(), coord_pt.end(), [](const auto& lhs, const auto& rhs) { return lhs.first < rhs.first; }, num_threads);
 
 #pragma omp parallel for num_threads(num_threads) schedule(guided, 128) reduction(+ : num_voxels)
-    for (size_t i = 1; i < coord_pt.size(); i++) {
+    for (std::int64_t i = 1; i < coord_pt.size(); i++) {
       if (coord_pt[i - 1].first != coord_pt[i].first) {
         num_voxels++;
       }

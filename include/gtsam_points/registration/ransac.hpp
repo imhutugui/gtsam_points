@@ -48,7 +48,7 @@ RegistrationResult estimate_pose_ransac_(
   const RANSACParams& params = RANSACParams());
 
 //
-RegistrationResult estimate_pose_ransac(
+inline RegistrationResult estimate_pose_ransac(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::Matrix<double, 33, 1>* target_features,
@@ -67,7 +67,7 @@ RegistrationResult estimate_pose_ransac(
     params);
 }
 
-RegistrationResult estimate_pose_ransac(
+inline RegistrationResult estimate_pose_ransac(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::Matrix<double, 125, 1>* target_features,
@@ -86,7 +86,7 @@ RegistrationResult estimate_pose_ransac(
     params);
 }
 
-RegistrationResult estimate_pose_ransac(
+inline RegistrationResult estimate_pose_ransac(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::VectorXd* target_features,

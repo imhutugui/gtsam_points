@@ -70,12 +70,12 @@ public:
 };
 
 /* ************************************************************************* */
-struct GTSAM_EXPORT DeltaImpl {
-  struct GTSAM_EXPORT PartialSolveResult {
+struct DeltaImpl {
+  struct PartialSolveResult {
     ISAM2Ext::sharedClique bayesTree;
   };
 
-  struct GTSAM_EXPORT ReorderingMode {
+  struct ReorderingMode {
     size_t nFullSystemVars;
     enum { /*AS_ADDED,*/ COLAMD } algorithm;
     enum { NO_CONSTRAINT, CONSTRAIN_LAST } constrain;
@@ -105,7 +105,7 @@ struct GTSAM_EXPORT DeltaImpl {
  * All of the methods below have clear inputs and outputs, even if not
  * functional: iSAM2 is inherintly imperative.
  */
-struct GTSAM_EXPORT UpdateImpl {
+struct UpdateImpl {
   const ISAM2Params& params_;
   const ISAM2UpdateParams& updateParams_;
   UpdateImpl(const ISAM2Params& params, const ISAM2UpdateParams& updateParams) : params_(params), updateParams_(updateParams) {}

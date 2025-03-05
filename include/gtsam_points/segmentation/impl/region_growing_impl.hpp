@@ -113,7 +113,7 @@ void region_growing_dilation_(
 
   // Find points within the dilation radius of the cluster
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-  for (size_t i = 0; i < context.cluster_indices.size(); i++) {
+  for (int i = 0; i < context.cluster_indices.size(); i++) {
     std::vector<size_t> indices;
     std::vector<double> sq_dists;
     search.radius_search(frame::point(points, context.cluster_indices[i]).data(), params.dilation_radius, indices, sq_dists);

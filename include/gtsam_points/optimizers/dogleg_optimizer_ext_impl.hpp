@@ -30,8 +30,8 @@ namespace gtsam_points {
  * here matches that in "trustregion.pdf" in doc, see this file for further
  * explanation of the computations performed by this class.
  */
-struct GTSAM_EXPORT DoglegOptimizerImplExt {
-  struct GTSAM_EXPORT IterationResult {
+struct DoglegOptimizerImplExt {
+  struct IterationResult {
     double delta;
     gtsam::VectorValues dx_d;
     double f_error;

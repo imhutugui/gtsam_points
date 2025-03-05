@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
+set(VCPKG_ROOT "E:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE PATH "")
+set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT})
 project(gtsam_points VERSION 1.0.7 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -11,9 +13,9 @@ endif()
 
 option(BUILD_TESTS "Build tests" OFF)
 option(BUILD_TESTS_PCL "Build tests that require PCL" OFF)
-option(BUILD_DEMO "Build demo programs" OFF)
-option(BUILD_EXAMPLE "Build example programs" OFF)
-option(BUILD_TOOLS "Build tools" OFF)
+option(BUILD_DEMO "Build demo programs" ON)
+option(BUILD_EXAMPLE "Build example programs" ON)
+option(BUILD_TOOLS "Build tools" ON)
 option(BUILD_WITH_TBB "Build with TBB support" ON)
 option(BUILD_WITH_OPENMP "Build with OpenMP support" ON)
 option(BUILD_WITH_CUDA "Build with GPU support" OFF)
@@ -30,7 +32,8 @@ if(BUILD_WITH_MARCH_NATIVE)
 endif()
 
 find_package(Boost REQUIRED COMPONENTS graph filesystem)
-find_package(GTSAM REQUIRED)
+find_package(GTSAM CONFIG REQUIRED)
+set(GTSAM_UNSTABLE_DIR ${GTSAM_DIR})
 find_package(GTSAM_UNSTABLE REQUIRED)
 find_package(Eigen3 REQUIRED)
 
@@ -135,7 +138,7 @@ configure_file(include/gtsam_points/config.hpp.in include/gtsam_points/config.hp
 ## Build ##
 ###########
 
-add_library(gtsam_points SHARED
+add_library(gtsam_points STATIC
   # util
   src/gtsam_points/util/bspline.cpp
   src/gtsam_points/util/continuous_trajectory.cpp
@@ -201,6 +204,9 @@ target_include_directories(gtsam_points PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+if (MSVC)
+  target_compile_options(gtsam_points PRIVATE -DNOMINMAX -D_USE_MATH_DEFINES -D_WIN32) 
+endif()
 target_link_libraries(gtsam_points
   Boost::boost
   Boost::graph
@@ -273,7 +279,11 @@ if(BUILD_DEMO)
     get_filename_component(demo_name ${demo_src} NAME_WE)
 
     add_executable(${demo_name} ${demo_src})
-    target_link_libraries(${demo_name} gtsam_points Iridescence::Iridescence)
+    if (MSVC)
+      target_compile_options(${demo_name} PRIVATE -D_WIN32 -DNOMINMAX -D_USE_MATH_DEFINES)
+    endif()
+    target_include_directories(${demo_name} PUBLIC ${Iridescence_INCLUDE_DIRS})
+    target_link_libraries(${demo_name} gtsam_points ${Iridescence_LIBRARIES})
   endforeach()
 endif()
 
@@ -286,7 +296,11 @@ if(BUILD_EXAMPLE)
     get_filename_component(example_name ${example_src} NAME_WE)
 
     add_executable(${example_name} ${example_src})
-    target_link_libraries(${example_name} gtsam_points Iridescence::Iridescence)
+    if (MSVC)
+      target_compile_options(${example_name} PRIVATE -D_WIN32 -DNOMINMAX -D_USE_MATH_DEFINES)
+    endif()
+    target_include_directories(${example_name} PUBLIC ${Iridescence_INCLUDE_DIRS})
+    target_link_libraries(${example_name} gtsam_points ${Iridescence_LIBRARIES})
   endforeach()
 endif()
 
@@ -300,7 +314,11 @@ if(BUILD_TOOLS)
     get_filename_component(tool_name ${tool_src} NAME_WE)
 
     add_executable(${tool_name} ${tool_src})
-    target_link_libraries(${tool_name} gtsam_points Iridescence::Iridescence Boost::program_options)
+    if (MSVC)
+      target_compile_options(${tool_name} PRIVATE -D_WIN32 -DNOMINMAX -D_USE_MATH_DEFINES)
+    endif()
+    target_include_directories(${tool_name} PUBLIC ${Iridescence_INCLUDE_DIRS})
+    target_link_libraries(${tool_name} gtsam_points ${Iridescence_LIBRARIES} Boost::program_options)
   endforeach()
 endif()
 

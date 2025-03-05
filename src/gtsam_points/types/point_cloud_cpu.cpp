@@ -268,7 +268,8 @@ PointCloudCPU::Ptr PointCloudCPU::load(const std::string& path) {
   const std::regex aux_name_regex("/aux_([^_]+).bin");
   for (; itr != end; itr++) {
     std::smatch matched;
-    if (!std::regex_search(itr->path().string(), matched, aux_name_regex)) {
+    std::string filename = itr->path().filename().string();
+    if (!std::regex_search(filename, matched, aux_name_regex)) {
       continue;
     }
     const std::string name = matched.str(1);

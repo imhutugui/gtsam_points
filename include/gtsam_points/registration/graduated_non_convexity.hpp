@@ -58,7 +58,7 @@ RegistrationResult estimate_pose_gnc_(
   const GNCParams& params = GNCParams());
 
 //
-RegistrationResult estimate_pose_gnc(
+inline RegistrationResult estimate_pose_gnc(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::Matrix<double, 33, 1>* target_features,
@@ -72,7 +72,7 @@ RegistrationResult estimate_pose_gnc(
     target, source, target_features, source_features, target_tree, target_features_tree, source_features_tree, params);
 }
 
-RegistrationResult estimate_pose_gnc(
+inline RegistrationResult estimate_pose_gnc(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::Matrix<double, 125, 1>* target_features,
@@ -86,7 +86,7 @@ RegistrationResult estimate_pose_gnc(
     target, source, target_features, source_features, target_tree, target_features_tree, source_features_tree, params);
 }
 
-RegistrationResult estimate_pose_gnc(
+inline RegistrationResult estimate_pose_gnc(
   const PointCloud& target,
   const PointCloud& source,
   const Eigen::VectorXd* target_features,

@@ -162,7 +162,7 @@ std::vector<PFHSignature> estimate_pfh(
 
   if (is_omp_default() || params.num_threads == 1) {
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-    for (size_t k = 0; k < num_indices; k++) {
+    for (int k = 0; k < num_indices; k++) {
       perpoint_task(k);
     }
   } else {
@@ -213,6 +213,7 @@ std::vector<FPFHSignature> estimate_fpfh(
   std::vector<Eigen::Matrix<double, BINS * 3, 1>> spfh(num_points);
 
   const auto perpoint_task_spfh = [&](size_t k) {
+    constexpr int BINS = 11;
     const size_t pt_index = k;
     const auto& pt = points[pt_index];
 
@@ -248,6 +249,7 @@ std::vector<FPFHSignature> estimate_fpfh(
 
   std::vector<FPFHSignature> features(num_indices);
   const auto perpoint_task_fpfh = [&](size_t k) {
+    constexpr int BINS = 11;
     const size_t pt_index = indices[k];
     const auto& pt = points[pt_index];
     const auto& neighbors = all_neighbors[pt_index];
@@ -277,12 +279,12 @@ std::vector<FPFHSignature> estimate_fpfh(
 
   if (is_omp_default() || params.num_threads == 1) {
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-    for (size_t k = 0; k < num_points; k++) {
+    for (int k = 0; k < num_points; k++) {
       perpoint_task_spfh(k);
     }
 
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 16)
-    for (size_t k = 0; k < num_indices; k++) {
+    for (int k = 0; k < num_indices; k++) {
       perpoint_task_fpfh(k);
     }
   } else {

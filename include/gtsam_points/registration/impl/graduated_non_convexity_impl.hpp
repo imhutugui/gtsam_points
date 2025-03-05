@@ -45,7 +45,7 @@ RegistrationResult estimate_pose_gnc_(
 
     std::vector<std::pair<int, int>> correspondences(source_indices.size(), std::make_pair(-1, -1));
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-    for (size_t i = 0; i < source_indices.size(); i++) {
+    for (int i = 0; i < source_indices.size(); i++) {
       const size_t source_index = source_indices[i];
       size_t target_index;
       double sq_dist;

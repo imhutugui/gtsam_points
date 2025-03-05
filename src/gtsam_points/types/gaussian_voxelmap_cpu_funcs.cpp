@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <unordered_set>
+#include <numeric>
 
 #include <Eigen/Core>
 #include <Eigen/Geometry>

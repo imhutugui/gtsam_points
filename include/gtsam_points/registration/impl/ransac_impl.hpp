@@ -171,7 +171,7 @@ RegistrationResult estimate_pose_ransac_(
 
   if (is_omp_default() || params.num_threads == 1) {
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-    for (size_t k = 0; k < params.max_iterations; k++) {
+    for (int k = 0; k < params.max_iterations; k++) {
       perpoint_task();
     }
   } else {

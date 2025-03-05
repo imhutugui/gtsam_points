@@ -61,7 +61,7 @@ MinCutResult min_cut_(const PointCloud& points, const NearestNeighborSearch& sea
   std::vector<size_t> all_neighbors(frame::size(points) * params.k_neighbors);
   std::vector<double> all_neighbor_sq_dists(frame::size(points) * params.k_neighbors);
 #pragma omp parallel for num_threads(params.num_threads) schedule(guided, 4)
-  for (size_t i = 0; i < frame::size(points); i++) {
+  for (int i = 0; i < frame::size(points); i++) {
     size_t* k_neighbors = all_neighbors.data() + i * params.k_neighbors;
     double* k_sq_dists = all_neighbor_sq_dists.data() + i * params.k_neighbors;
     search.knn_search(frame::point(points, i).data(), params.k_neighbors, k_neighbors, k_sq_dists);

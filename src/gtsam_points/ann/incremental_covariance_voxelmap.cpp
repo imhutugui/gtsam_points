@@ -175,7 +175,7 @@ void IncrementalCovarianceVoxelMap::insert(const PointCloud& points) {
 
   if (lru_counter % lru_clear_cycle == 0) {
 #pragma omp parallel for num_threads(num_threads) schedule(guided, 2)
-    for (size_t i = 0; i < flat_voxels.size(); i++) {
+    for (int i = 0; i < flat_voxels.size(); i++) {
       auto& voxel = flat_voxels[i];
       voxel->second.remove_old_invalid(remove_invalid_age_thresh, lru_counter);
     }
@@ -233,7 +233,7 @@ std::vector<size_t> IncrementalCovarianceVoxelMap::valid_indices(int num_threads
   }
 
 #pragma omp parallel for num_threads(num_threads)
-  for (size_t i = 0; i < flat_voxels.size(); i++) {
+  for (int i = 0; i < flat_voxels.size(); i++) {
     const auto& voxel = flat_voxels[i];
     for (int j = 0; j < voxel->second.size(); j++) {
       if (voxel->second.valid(j)) {
